@@ -1,0 +1,52 @@
+#include <iostream>
+using namespace std;
+
+const int MAXN = 500010;
+
+int bit[MAXN];
+int n, m;
+
+void add(int i, int x)
+{
+	while(i <= n)
+	{
+		bit[i] += x;
+		i += i & -i;
+	}
+}
+
+int sum(int i)
+{
+	int ret = 0;
+	while(i > 0)
+	{
+		ret += bit[i];
+		i -= i&-i;
+	}
+	return ret;
+}
+
+int main()
+{
+	cin >> n >> m;
+	for(int i=1; i<=n; i++)
+	{
+		int x;
+		cin >> x;
+		add(i, x);
+	}
+	for(int i=1; i<=m; i++)
+	{
+		int judge, a, b;
+		cin >> judge >> a >> b;
+		if(judge == 1)
+		{
+			add(a, b);
+		}
+		else 
+		{
+			cout << sum(b) - sum(a-1) << endl;
+		}
+	}
+	return  0;
+}
